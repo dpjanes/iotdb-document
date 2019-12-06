@@ -57,3 +57,13 @@ More ideas:
 
         .then(document.to.base64.safe)
         .then(document.from.base64.safe)
+
+More ideas (for document\_media\_type)
+
+        document.identify.path
+        document.identify.url
+        document.identify.document
+        document.is(mime_type)
+        document.is.text
+        document.is.json
+        ...

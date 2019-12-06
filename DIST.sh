@@ -6,7 +6,6 @@
 #   2019-12-06
 #
 
-exit 0
 PACKAGE=iotdb-document
 DIST_ROOT=/var/tmp/.dist.$$
 
