@@ -1,5 +1,5 @@
 /**
- *  test/to_hex.js
+ *  test/from_hex.js
  *
  *  David Janes
  *  IOTDB
