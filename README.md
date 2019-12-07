@@ -47,7 +47,7 @@ Ensure document is a String, decoding from utf-16
     })
         .then(document.to.string)
 
-More ideas:
+Convert from/to Hex, Base64 and Safe Base64 encodings
 
         .then(document.to.hex)
         .then(document.from.hex)
@@ -58,10 +58,13 @@ More ideas:
         .then(document.to.base64.safe)
         .then(document.from.base64.safe)
 
+Identify MIME types
+
+        .then(document.identify.path)
+        .then(document.identify.url)
+
 More ideas (for document\_media\_type)
 
-        document.identify.path
-        document.identify.url
         document.identify.document
         document.is(mime_type)
         document.is.text
