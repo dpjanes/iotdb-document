@@ -1,5 +1,5 @@
 /**
- *  test/to_base64.js
+ *  test/to.base64.js
  *
  *  David Janes
  *  IOTDB
@@ -31,76 +31,88 @@ const _util = require("./_util")
 
 const STRING_EN = "Hello, World. Now is the time for all good men to come to the aid of the party, etc. etc. 效汬Ɐ圠牯摬\n\t-12345677890!@#$%^&*()_+-=\r\n/,.<>;:'{}[]\\|\"~`"
 const BASE64_EN_UTF8 = Buffer.from(STRING_EN).toString("base64")
-const SAFE64_EN_UTF8 = Buffer.from(STRING_EN).toString("base64")
-    .replace(/\//g, "_")
-    .replace(/[+]/g, "-");
-const BASE64_EN_UTF16LE = Buffer.from(STRING_EN).toString("base64").toString("utf16le")
+const BASE64_EN_UTF16LE = Buffer.from(STRING_EN, "utf16le").toString("base64")
+const SAFE64_EN_UTF8 = Buffer.from(STRING_EN).toString("base64").replace(/\//g, '_').replace(/[+]/g, '-')
+const SAFE64_EN_UTF16LE = Buffer.from(STRING_EN, "utf16le").toString("base64").replace(/\//g, '_').replace(/[+]/g, '-')
 
-describe("from.base64", function() {
-    it("works - buffer in (utf8 default)", function(done) {
+describe("to.base64", function() {
+    it("works - string in", function(done) {
         _.promise({
-            document: Buffer.from(BASE64_EN_UTF8),
+            document: STRING_EN,
         })
-            .then(document.from.base64)
-            .then(document.to.string.utf8)
+            .then(document.to.base64)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BASE64_EN_UTF8
 
-                // console.log(JSON.stringify({ got, want }))
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - string in (utf8 default)", function(done) {
+    it("works - buffer in", function(done) {
         _.promise({
-            document: BASE64_EN_UTF8,
+            document: Buffer.from(STRING_EN),
         })
-            .then(document.from.base64)
-            .then(document.to.string.utf8)
+            .then(document.to.base64)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BASE64_EN_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - Safe64 string in (utf8 default)", function(done) {
+    it("works - utf16 buffer in", function(done) {
         _.promise({
-            document: SAFE64_EN_UTF8,
+            document: Buffer.from(STRING_EN, "utf16le"),
         })
-            .then(document.from.base64)
-            .then(document.to.string.utf8)
+            .then(document.to.base64)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BASE64_EN_UTF16LE
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - paramaterized all arguments (utf8)", function(done) {
-        _.promise()
-            .then(document.from.base64.p(BASE64_EN_UTF8, "utf8"))
-            .then(document.to.string.utf8)
+})
+
+describe("to.base64.safe", function() {
+    it("works - string in", function(done) {
+        _.promise({
+            document: STRING_EN,
+        })
+            .then(document.to.base64.safe)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = SAFE64_EN_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - paramaterized all arguments (utf16le), safe encoded", function(done) {
-        _.promise()
-            .then(document.from.base64.p(BASE64_EN_UTF16LE, "utf16le"))
-            .then(document.to.string.utf8)
+    it("works - buffer in", function(done) {
+        _.promise({
+            document: Buffer.from(STRING_EN),
+        })
+            .then(document.to.base64.safe)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = SAFE64_EN_UTF8
 
-                // console.log(JSON.stringify({ got, want }))
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - utf16 buffer in", function(done) {
+        _.promise({
+            document: Buffer.from(STRING_EN, "utf16le"),
+        })
+            .then(document.to.base64.safe)
+            .make(sd => {
+                const got = sd.document
+                const want = SAFE64_EN_UTF16LE
+
                 assert.deepEqual(got, want)
             })
             .end(done)

@@ -1,5 +1,5 @@
 /**
- *  test/to_string.js
+ *  test/to.buffer.js
  *
  *  David Janes
  *  IOTDB
@@ -33,125 +33,112 @@ const STRING_EN = "Hello, World"
 const BUFFER_UTF8 = Buffer.from(STRING_EN, "utf8")
 const BUFFER_UTF16LE = Buffer.from(STRING_EN, "utf16le")
 
-describe("to.string", function() {
-    it("works - string in", function(done) {
+describe("to.buffer", function() {
+    it("works - buffer in", function(done) {
         _.promise({
-            document: STRING_EN,
+            document: BUFFER_UTF8,
         })
-            .then(document.to.string)
+            .then(document.to.buffer)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - string in, encoding does nothing", function(done) {
+    it("works - buffer in, encoding does nothing", function(done) {
+        _.promise({
+            document: BUFFER_UTF8,
+            document_encoding: "utf16le",
+        })
+            .then(document.to.buffer)
+            .make(sd => {
+                const got = sd.document
+                const want = BUFFER_UTF8
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - string in, default encoding", function(done) {
+        _.promise({
+            document: STRING_EN,
+        })
+            .then(document.to.buffer)
+            .make(sd => {
+                const got = sd.document
+                const want = BUFFER_UTF8
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - string in, explicit encoding", function(done) {
         _.promise({
             document: STRING_EN,
             document_encoding: "utf16le",
         })
-            .then(document.to.string)
+            .then(document.to.buffer)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF16LE
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("works - buffer in, default encoding", function(done) {
+    it("works - parameterized (all arguments)", function(done) {
         _.promise({
-            document: BUFFER_UTF8,
-        })
-            .then(document.to.string)
-            .make(sd => {
-                const got = sd.document
-                const want = STRING_EN
-
-                assert.deepEqual(got, want)
-            })
-            .end(done)
-    })
-    it("works - buffer in, explicit encoding", function(done) {
-        _.promise({
-            document: BUFFER_UTF16LE,
-            document_encoding: "utf16le",
-        })
-            .then(document.to.string)
-            .make(sd => {
-                const got = sd.document
-                const want = STRING_EN
-
-                assert.deepEqual(got, want)
-            })
-            .end(done)
-    })
-    it("expected mismatch - buffer in, explicit encoding", function(done) {
-        _.promise({
-            document: BUFFER_UTF16LE,
-        })
-            .then(document.to.string)
-            .make(sd => {
-                const got = sd.document
-                const want = STRING_EN
-
-                assert.ok(got !== want)
-            })
-            .end(done)
-    })
-    it("parameterized - all arguments", function(done) {
-        _.promise({
-            // document: BUFFER_UTF16LE,
+            // document: STRING_EN,
             // document_encoding: "utf16le",
         })
-            .then(document.to.string.p(BUFFER_UTF16LE, "utf16le"))
+            .then(document.to.buffer.p(STRING_EN, "utf16le"))
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF16LE
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("parameterized - default first argument", function(done) {
+    it("works - parameterized (default first argument)", function(done) {
         _.promise({
-            document: BUFFER_UTF16LE,
+            document: STRING_EN,
             // document_encoding: "utf16le",
         })
-            .then(document.to.string.p(null, "utf16le"))
+            .then(document.to.buffer.p(null, "utf16le"))
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF16LE
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("parameterized - default all arguments (1)", function(done) {
+    it("works - parameterized (default all argument) (1)", function(done) {
         _.promise({
-            document: BUFFER_UTF8,
+            document: STRING_EN,
             document_encoding: null,
         })
-            .then(document.to.string.p(null, null))
+            .then(document.to.buffer.p(null, null))
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("parameterized - default all arguments (2)", function(done) {
+    it("works - parameterized (default all argument) (2)", function(done) {
         _.promise({
-            document: BUFFER_UTF16LE,
+            document: STRING_EN,
             document_encoding: "utf16le",
         })
-            .then(document.to.string.p(null, null))
+            .then(document.to.buffer.p(null, null))
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF16LE
 
                 assert.deepEqual(got, want)
             })
@@ -159,54 +146,54 @@ describe("to.string", function() {
     })
 })
 
-describe("to.string.utf8", function() {
+describe("to.buffer.utf8", function() {
     it("works - buffer in", function(done) {
         _.promise({
             document: BUFFER_UTF8,
         })
-            .then(document.to.string.utf8)
+            .then(document.to.buffer.utf8)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("expected mismatch - buffer in, explicit encoding", function(done) {
+    it("works - string in, default encoding", function(done) {
         _.promise({
-            document: BUFFER_UTF16LE,
+            document: STRING_EN,
         })
-            .then(document.to.string.utf8)
+            .then(document.to.buffer.utf8)
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
-
-                assert.ok(got !== want)
-            })
-            .end(done)
-    })
-    it("parameterized - all arguments", function(done) {
-        _.promise({
-            // document: BUFFER_UTF8,
-        })
-            .then(document.to.string.utf8.p(BUFFER_UTF8))
-            .make(sd => {
-                const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF8
 
                 assert.deepEqual(got, want)
             })
             .end(done)
     })
-    it("parameterized - default first argument", function(done) {
+    it("works - parameterized", function(done) {
         _.promise({
-            document: BUFFER_UTF8,
+            document: STRING_EN,
         })
-            .then(document.to.string.utf8.p(null))
+            .then(document.to.buffer.utf8.p(STRING_EN))
             .make(sd => {
                 const got = sd.document
-                const want = STRING_EN
+                const want = BUFFER_UTF8
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - parameterized default", function(done) {
+        _.promise({
+            document: STRING_EN,
+        })
+            .then(document.to.buffer.utf8.p(null))
+            .make(sd => {
+                const got = sd.document
+                const want = BUFFER_UTF8
 
                 assert.deepEqual(got, want)
             })

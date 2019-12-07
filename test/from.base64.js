@@ -1,5 +1,5 @@
 /**
- *  test/from_hex.js
+ *  test/to.base64.js
  *
  *  David Janes
  *  IOTDB
@@ -30,15 +30,18 @@ const document = require("..")
 const _util = require("./_util")
 
 const STRING_EN = "Hello, World. Now is the time for all good men to come to the aid of the party, etc. etc. 效汬Ɐ圠牯摬\n\t-12345677890!@#$%^&*()_+-=\r\n/,.<>;:'{}[]\\|\"~`"
-const HEX_EN_UTF8 = Buffer.from(STRING_EN).toString("hex")
-const HEX_EN_UTF16LE = Buffer.from(STRING_EN).toString("hex").toString("utf16le")
+const BASE64_EN_UTF8 = Buffer.from(STRING_EN).toString("base64")
+const SAFE64_EN_UTF8 = Buffer.from(STRING_EN).toString("base64")
+    .replace(/\//g, "_")
+    .replace(/[+]/g, "-");
+const BASE64_EN_UTF16LE = Buffer.from(STRING_EN).toString("base64").toString("utf16le")
 
-describe("from.hex", function() {
+describe("from.base64", function() {
     it("works - buffer in (utf8 default)", function(done) {
         _.promise({
-            document: Buffer.from(HEX_EN_UTF8),
+            document: Buffer.from(BASE64_EN_UTF8),
         })
-            .then(document.from.hex)
+            .then(document.from.base64)
             .then(document.to.string.utf8)
             .make(sd => {
                 const got = sd.document
@@ -51,9 +54,23 @@ describe("from.hex", function() {
     })
     it("works - string in (utf8 default)", function(done) {
         _.promise({
-            document: HEX_EN_UTF8,
+            document: BASE64_EN_UTF8,
         })
-            .then(document.from.hex)
+            .then(document.from.base64)
+            .then(document.to.string.utf8)
+            .make(sd => {
+                const got = sd.document
+                const want = STRING_EN
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - Safe64 string in (utf8 default)", function(done) {
+        _.promise({
+            document: SAFE64_EN_UTF8,
+        })
+            .then(document.from.base64)
             .then(document.to.string.utf8)
             .make(sd => {
                 const got = sd.document
@@ -65,7 +82,7 @@ describe("from.hex", function() {
     })
     it("works - paramaterized all arguments (utf8)", function(done) {
         _.promise()
-            .then(document.from.hex.p(HEX_EN_UTF8, "utf8"))
+            .then(document.from.base64.p(BASE64_EN_UTF8, "utf8"))
             .then(document.to.string.utf8)
             .make(sd => {
                 const got = sd.document
@@ -75,9 +92,9 @@ describe("from.hex", function() {
             })
             .end(done)
     })
-    it("works - paramaterized all arguments (utf16le)", function(done) {
+    it("works - paramaterized all arguments (utf16le), safe encoded", function(done) {
         _.promise()
-            .then(document.from.hex.p(HEX_EN_UTF16LE, "utf16le"))
+            .then(document.from.base64.p(BASE64_EN_UTF16LE, "utf16le"))
             .then(document.to.string.utf8)
             .make(sd => {
                 const got = sd.document
