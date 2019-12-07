@@ -63,6 +63,11 @@ Identify MIME types
         .then(document.identify.path)
         .then(document.identify.url)
 
+More ideas
+
+    document.from.json
+    document.to.json
+
 More ideas (for document\_media\_type)
 
         document.identify.document
