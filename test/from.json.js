@@ -31,6 +31,7 @@ const _util = require("./_util")
 
 const J = { a: 1, b: [ "a", "b", ] }
 const STRING = JSON.stringify(J)
+const PRETTY = JSON.stringify(J, null, 2)
 
 describe("from.json", function() {
     it("works", function(done) {
@@ -52,6 +53,33 @@ describe("from.json", function() {
             .make(sd => {
                 const got = sd.document
                 const want = STRING
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+})
+
+describe("from.json.pretty", function() {
+    it("works", function(done) {
+        _.promise({
+            json: J,
+        })
+            .then(document.from.json.pretty)
+            .make(sd => {
+                const got = sd.document
+                const want = PRETTY
+
+                assert.deepEqual(got, want)
+            })
+            .end(done)
+    })
+    it("works - parameterized", function(done) {
+        _.promise()
+            .then(document.from.json.pretty.p(J))
+            .make(sd => {
+                const got = sd.document
+                const want = PRETTY
 
                 assert.deepEqual(got, want)
             })
