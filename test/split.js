@@ -1,5 +1,5 @@
 /**
- *  test/identify.paragraphs.js
+ *  test/split.js
  *
  *  David Janes
  *  IOTDB
@@ -31,32 +31,33 @@ const path = require("path")
 const document = require("..")
 const _util = require("./_util")
 
-describe("identify.paragraphs", function() {
-    const _test = _.promise((self, done) => {
-        _.promise(self)
-            .add("path", path.join(__dirname, "data", self.test))
-            .then(fs.read.utf8)
-            .then(document.identify.paragraphs)
-            .make(sd => {
-                console.log(sd.parts)
-                // assert.strictEqual(sd.document_media_type, sd.test.document_media_type)
-            })
-            .end(done, {})
-    })
-
-    it("works (plain text)", function(done) {
-        _.promise({
-            document_media_type: "text/plain",
-            tests: [
-                "bbc_congo.txt",
-                "harry.txt",
-                "sherlock.txt",
-            ],
+describe("split", function() {
+    describe("split.sentences", function() {
+        const _test = _.promise((self, done) => {
+            _.promise(self)
+                .add("path", path.join(__dirname, "data", self.test))
+                .then(fs.read.utf8)
+                .then(document.split.sentences)
+                .make(sd => {
+                    console.log(sd.parts)
+                })
+                .end(done, {})
         })
-            .each({
-                method: _test,
-                inputs: "tests:test",
+
+        it("works (plain text)", function(done) {
+            _.promise({
+                document_media_type: "text/plain",
+                tests: [
+                    "bbc_congo.txt",
+                    "harry.txt",
+                    "sherlock.txt",
+                ],
             })
-            .end(done, {})
+                .each({
+                    method: _test,
+                    inputs: "tests:test",
+                })
+                .end(done, {})
+        })
     })
 })
