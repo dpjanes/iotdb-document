@@ -63,6 +63,12 @@ Identify MIME types
         .then(document.identify.path)
         .then(document.identify.url)
 
+Identifier paragraphs, sentences and quotes
+
+        .then(document.identify.sentences)
+        .then(document.identify.quotes)
+        .then(document.identify.paragraphs)
+
 More ideas
 
     document.from.json
