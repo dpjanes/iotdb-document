@@ -60,4 +60,32 @@ describe("split", function() {
                 .end(done, {})
         })
     })
+    describe("split.paragraphs", function() {
+        const _test = _.promise((self, done) => {
+            _.promise(self)
+                .add("path", path.join(__dirname, "data", self.test))
+                .then(fs.read.utf8)
+                .then(document.split.paragraphs)
+                .make(sd => {
+                    console.log(sd.parts)
+                })
+                .end(done, {})
+        })
+
+        it("works (plain text)", function(done) {
+            _.promise({
+                document_media_type: "text/plain",
+                tests: [
+                    "bbc_congo.txt",
+                    "harry.txt",
+                    "sherlock.txt",
+                ],
+            })
+                .each({
+                    method: _test,
+                    inputs: "tests:test",
+                })
+                .end(done, {})
+        })
+    })
 })
