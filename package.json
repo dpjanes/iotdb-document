@@ -1,24 +1,24 @@
 {
-    "author": "David P. Janes <davidjanes@davidjanes.com>",
+    "author": "David P. Janes <davidjanes@davidjanes.com>", 
     "bugs": {
         "url": "https://github.com/dpjanes/iotdb-document/issues"
-    },
+    }, 
     "dependencies": {
-        "iotdb-helpers": "~3.4.20"
-    },
-    "description": "POP Interface for Document",
-    "homepage": "https://github.com/dpjanes/node-iotdb",
-    "license": "Apache-2.0",
-    "main": "index.js",
-    "name": "iotdb-document",
-    "private": false,
+        "iotdb-helpers": "~3.4.22"
+    }, 
+    "description": "POP Interface for Document", 
+    "homepage": "https://github.com/dpjanes/node-iotdb", 
+    "license": "Apache-2.0", 
+    "main": "index.js", 
+    "name": "iotdb-document", 
+    "private": false, 
     "repository": {
-        "type": "git",
+        "type": "git", 
         "url": "https://github.com/dpjanes/iotdb-document"
-    },
+    }, 
     "scripts": {
-        "cover": "nyc --reporter=html mocha --recursive",
+        "cover": "nyc --reporter=html mocha --recursive", 
         "test": "mocha --recursive --bail"
-    },
-    "version": "1.0.4"
+    }, 
+    "version": "1.0.5"
 }
