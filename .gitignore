@@ -4,3 +4,4 @@ zz*
 .*
 *.old
 coverage
+node_modules
