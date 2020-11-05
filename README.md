@@ -65,9 +65,9 @@ Identify MIME types
 
 Identifier paragraphs, sentences and quotes
 
-        .then(document.identify.sentences)
-        .then(document.identify.quotes)
-        .then(document.identify.paragraphs)
+        .then(document.identify.sentences) // not implemented
+        .then(document.identify.quotes) // not implemented
+        .then(document.identify.paragraphs) // not implemented
 
 More ideas
 
